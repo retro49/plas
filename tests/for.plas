@@ -1,0 +1,8 @@
+load $0 0
+load $1 10
+log $0 :loop
+    eval $0 10
+    ifeq @_exit
+    add $0 1 
+    go @loop
+exit 0 :_exit

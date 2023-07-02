@@ -1,0 +1,22 @@
+load $0 65 # holder
+load $f 32 # space
+load $e 10 # new line
+load $c 0  # counter
+
+go @main
+
+putc $0 :main
+	putc $f
+	add $c 1
+	eval $c 10
+	ifge @next
+	go @main
+
+putc $e :next # newline
+	add $0 1
+	eval $0 79 
+	ifge @terminate
+	load $c 0
+	go @main
+	 
+exit 0 :terminate

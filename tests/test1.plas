@@ -1,0 +1,20 @@
+# loads a value to memory
+load   r0         0
+load   r1              10  600
+load   r2  500  0b006
+
+ # adds a value to a memory 
+add    r0    r1   ( loop   )  
+
+# prints a value to stdout from memory
+print r0 (            sdfasd  ks  ksddf)
+
+# evaluates a memory
+eval r0 100
+
+# checks flag and make jump
+iflt @loop
+goto @end
+exit 			0 (end           )     r 
+load re   234234
+load ra 23123

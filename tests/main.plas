@@ -1,0 +1,11 @@
+# plas comment
+# plas basic arithmetic operations
+load $0 10  # $0 = 10; x = 10
+load $1 20  # $1 = 20; y = 20
+add $0 $1   # $0 = $0 + $1
+load $2 $0  # $2 = $0
+mul $2 5    # $2 = $2 * 5
+idiv $2 4   # integer division
+div $2 0.423 # just division
+putc $2       # show the value in $2 to stdout
+log $2

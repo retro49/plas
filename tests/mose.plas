@@ -1,0 +1,4 @@
+load $0 10
+load $1 20
+add $0 $1
+log $0

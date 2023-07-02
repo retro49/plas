@@ -1,0 +1,21 @@
+load $0 42  # (*) ascii star
+load $c 0   # counter
+load $d 0
+load $a 10
+go @main
+
+putc $0 : main
+	eval $c $d 
+	ifge @next_loop
+	add $c 1
+	go @main
+
+add $d 1: next_loop
+	load $c 0
+	putc $a
+	eval $d 5
+	ifge @terminate
+	go @main
+
+exit 0 :terminate
+	

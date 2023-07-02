@@ -1,0 +1,20 @@
+# home instruction test
+load $0 10  # load 10 into $0 (mem 0)
+load $1 20  # laod 20 into $1 (mem 1)
+go @main    # goto main label
+
+# with home command after executing main label
+# the program will return to the next instruction
+log $0
+log $1
+go @terminate  # terminate call
+
+add $0 100: main
+	add $1 300
+	load $f 65
+	load $e 10
+	putc $f  # prints the value in mem in ascii
+	putc $e  # the same goes here
+	home
+
+exit 0 :terminate # terminates the process

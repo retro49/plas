@@ -1,0 +1,8 @@
+load $0 100
+load $1 400
+add $0 $1
+add $1 $0
+eval $0 $1
+ifeq @terminate_fine
+exit 1
+exit 0 :terminate_fine
