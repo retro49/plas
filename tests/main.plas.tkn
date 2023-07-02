@@ -1,0 +1,9 @@
+ 3: load $0 10           | <TYPE 1 (INSTRUCTION), DATA load><TYPE 2 (MEMORY), DATA $0><TYPE 3 (VALUE), DATA 10>
+ 4: load $1 20           | <TYPE 1 (INSTRUCTION), DATA load><TYPE 2 (MEMORY), DATA $1><TYPE 3 (VALUE), DATA 20>
+ 5: add $0 $1            | <TYPE 1 (INSTRUCTION), DATA add><TYPE 2 (MEMORY), DATA $0><TYPE 2 (MEMORY), DATA $1>
+ 6: load $2 $0           | <TYPE 1 (INSTRUCTION), DATA load><TYPE 2 (MEMORY), DATA $2><TYPE 2 (MEMORY), DATA $0>
+ 7: mul $2 5             | <TYPE 1 (INSTRUCTION), DATA mul><TYPE 2 (MEMORY), DATA $2><TYPE 3 (VALUE), DATA 5>
+ 8: idiv $2 4            | <TYPE 1 (INSTRUCTION), DATA idiv><TYPE 2 (MEMORY), DATA $2><TYPE 3 (VALUE), DATA 4>
+ 9: div $2 0.423         | <TYPE 1 (INSTRUCTION), DATA div><TYPE 2 (MEMORY), DATA $2><TYPE 3 (VALUE), DATA 0.423>
+10: putc $2              | <TYPE 1 (INSTRUCTION), DATA putc><TYPE 2 (MEMORY), DATA $2>
+11: log $2               | <TYPE 1 (INSTRUCTION), DATA log><TYPE 2 (MEMORY), DATA $2>

@@ -1,0 +1,14 @@
+ 2: load $0 10           | <TYPE 1 (INSTRUCTION), DATA load><TYPE 2 (MEMORY), DATA $0><TYPE 3 (VALUE), DATA 10>
+ 3: load $1 20           | <TYPE 1 (INSTRUCTION), DATA load><TYPE 2 (MEMORY), DATA $1><TYPE 3 (VALUE), DATA 20>
+ 4: go @ main            | <TYPE 1 (INSTRUCTION), DATA go><TYPE 5 (SYMBOL), DATA @><TYPE 4 (LABEL), DATA main>
+ 8: log $0               | <TYPE 1 (INSTRUCTION), DATA log><TYPE 2 (MEMORY), DATA $0>
+ 9: log $1               | <TYPE 1 (INSTRUCTION), DATA log><TYPE 2 (MEMORY), DATA $1>
+10: go @ terminate       | <TYPE 1 (INSTRUCTION), DATA go><TYPE 5 (SYMBOL), DATA @><TYPE 4 (LABEL), DATA terminate>
+12: add $0 100 : main    | <TYPE 1 (INSTRUCTION), DATA add><TYPE 2 (MEMORY), DATA $0><TYPE 3 (VALUE), DATA 100><TYPE 5 (SYMBOL), DATA :><TYPE 4 (LABEL), DATA main>
+13: add $1 300           | <TYPE 1 (INSTRUCTION), DATA add><TYPE 2 (MEMORY), DATA $1><TYPE 3 (VALUE), DATA 300>
+14: load $f 65           | <TYPE 1 (INSTRUCTION), DATA load><TYPE 2 (MEMORY), DATA $f><TYPE 3 (VALUE), DATA 65>
+15: load $e 10           | <TYPE 1 (INSTRUCTION), DATA load><TYPE 2 (MEMORY), DATA $e><TYPE 3 (VALUE), DATA 10>
+16: putc $f              | <TYPE 1 (INSTRUCTION), DATA putc><TYPE 2 (MEMORY), DATA $f>
+17: putc $e              | <TYPE 1 (INSTRUCTION), DATA putc><TYPE 2 (MEMORY), DATA $e>
+18: home                 | <TYPE 1 (INSTRUCTION), DATA home>
+20: exit 0 : terminate   | <TYPE 1 (INSTRUCTION), DATA exit><TYPE 3 (VALUE), DATA 0><TYPE 5 (SYMBOL), DATA :><TYPE 4 (LABEL), DATA terminate>

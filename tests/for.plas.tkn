@@ -1,0 +1,8 @@
+1: load $0 0            | <TYPE 1 (INSTRUCTION), DATA load><TYPE 2 (MEMORY), DATA $0><TYPE 3 (VALUE), DATA 0>
+2: load $1 10           | <TYPE 1 (INSTRUCTION), DATA load><TYPE 2 (MEMORY), DATA $1><TYPE 3 (VALUE), DATA 10>
+3: log $0 : loop        | <TYPE 1 (INSTRUCTION), DATA log><TYPE 2 (MEMORY), DATA $0><TYPE 5 (SYMBOL), DATA :><TYPE 4 (LABEL), DATA loop>
+4: eval $0 10           | <TYPE 1 (INSTRUCTION), DATA eval><TYPE 2 (MEMORY), DATA $0><TYPE 3 (VALUE), DATA 10>
+5: ifeq @ _exit         | <TYPE 1 (INSTRUCTION), DATA ifeq><TYPE 5 (SYMBOL), DATA @><TYPE 4 (LABEL), DATA _exit>
+6: add $0 1             | <TYPE 1 (INSTRUCTION), DATA add><TYPE 2 (MEMORY), DATA $0><TYPE 3 (VALUE), DATA 1>
+7: go @ loop            | <TYPE 1 (INSTRUCTION), DATA go><TYPE 5 (SYMBOL), DATA @><TYPE 4 (LABEL), DATA loop>
+8: exit 0 : _exit       | <TYPE 1 (INSTRUCTION), DATA exit><TYPE 3 (VALUE), DATA 0><TYPE 5 (SYMBOL), DATA :><TYPE 4 (LABEL), DATA _exit>
