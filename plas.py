@@ -4,6 +4,8 @@ import os
 import re
 
 from logging.log import Log
+from util.utils import ASCIIHelper
+from util.utils import SourceStream
 
 """
 @author: Naol Dereje
@@ -708,7 +710,7 @@ class Parser:
 
                         # check for label in label table
                         label = line_token[li + 1].get_data()
-                        if not label in self.labelTable.get_table():
+                        if label not in self.labelTable.get_table():
                             Log.w("error label [ " + label + " ] could not be found")
                             Log.e("error", "label not found at line " + str(line))
                             sys.exit(SysExit.EXIT_SYNTAX_ERROR)
@@ -830,41 +832,6 @@ class TokenMatcher:
         return self.tkn
 
 
-class ASCIIHelper:
-    ALPHA_REGEX = r"[a-zA-Z]"
-    ALPHANUM_REGEX = r"[a-zA-Z0-9]"
-    NUM_REGEX = r"[0-9]+"
-    SYM_REGEX = r"[\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\\\"\,\<\.\>\/\?\`\~\| \t]"
-
-    @staticmethod
-    def is_alpha(c: chr) -> bool:
-        if re.fullmatch(ASCIIHelper.ALPHA_REGEX, c):
-            return True
-
-        return False
-
-    @staticmethod
-    def is_alphanum(c: chr) -> bool:
-        if re.fullmatch(ASCIIHelper.ALPHANUM_REGEX, c):
-            return True
-
-        return False
-
-    @staticmethod
-    def is_num(c: chr) -> bool:
-        if re.fullmatch(ASCIIHelper.NUM_REGEX, c):
-            return True
-
-        return False
-
-    @staticmethod
-    def is_special_char(c: chr) -> bool:
-        if re.fullmatch(ASCIIHelper.SYM_REGEX, c):
-            return True
-
-        return False
-
-
 class Tokenizer:
     def __init__(self, source_stream):
         self.ss = source_stream
@@ -974,28 +941,6 @@ class Preprocessor:
 
     def get_preprocessed(self) -> list:
         return self.preprocessed
-
-
-class SourceStream:
-    def __init__(self, file: str):
-        self.file = file
-        # check file
-        if not os.path.exists(self.file):
-            sys.stdout.write("source stream not found\n")
-            return
-
-        self.stream = ""
-        self.__read_stream()
-
-    def __read_stream(self):
-        with open(self.file, "r") as f:
-            self.stream += f.read()
-
-    def get_stream(self) -> str:
-        return self.stream
-
-    def __str__(self) -> str:
-        return self.stream
 
 
 class Plas:
