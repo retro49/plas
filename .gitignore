@@ -1,0 +1,5 @@
+.idea
+*.tkns
+*.prs
+*.swp
+__pychache__
