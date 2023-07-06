@@ -3,14 +3,14 @@ import sys
 import os
 import re
 
-from lang.logging.log import Log
+from logging.log import Log
 
+from lang.tokenizer import TTC
 from lang.tokenizer import Tokenizer
 from lang.token_unit import Token
 from lang.token_unit import TokenType
-from lang.token_unit import TTC
 
-from lang.util.utils import SourceStream
+from util.utils import SourceStream
 
 """
 @author: Naol Dereje
