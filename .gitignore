@@ -2,4 +2,4 @@
 *.tkns
 *.prs
 *.swp
-__pycache__
+*pycache*
