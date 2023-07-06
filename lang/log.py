@@ -1,10 +1,8 @@
 import sys
 
 
-""" logging class """
-
-
 class Log:
+    """ logging class """
     __GREEN = '\033[1;32m'
     __NORM = '\033[0;00m'
     __RED = '033[1;31m'

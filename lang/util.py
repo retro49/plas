@@ -4,6 +4,8 @@ import sys
 
 
 class SourceStream:
+    """ reads a source code file """
+
     def __init__(self, file: str):
         self.file = file
         # check file
@@ -19,6 +21,7 @@ class SourceStream:
             self.stream += f.read()
 
     def get_stream(self) -> str:
+        """ returns the source code stream """
         return self.stream
 
     def __str__(self) -> str:

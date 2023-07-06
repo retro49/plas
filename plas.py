@@ -3,9 +3,14 @@ import sys
 import os
 import re
 
-from logging.log import Log
-from util.utils import ASCIIHelper
-from util.utils import SourceStream
+from lang.log import Log
+
+from lang.util import SourceStream
+from lang.tokenizer import Tokenizer
+from lang.token_unit import Token
+from lang.token_unit import TokenType
+from lang.token_unit import TTC
+from lang.preprocessor import Preprocessor
 
 """
 @author: Naol Dereje
@@ -483,34 +488,6 @@ class SysExit:
     EXIT_SYNTAX_ERROR = 9
     EXIT_ZERO_DIVISION_ERROR = 10
 
-
-# token type classifier
-class TTC:
-    __token_types = {
-        0x000: "ERROR",
-        0x001: "INSTRUCTION",
-        0x002: "MEMORY",
-        0x003: "VALUE",
-        0x004: "LABEL",
-        0x005: "SYMBOL",
-        0x006: "ADDRESS"
-    }
-
-    @staticmethod
-    def get_type(t: int) -> str:
-        return TTC.__token_types[t]
-
-
-class TokenType:
-    TKN_INS = 0x01
-    TKN_MEM = 0x02
-    TKN_VAL = 0x03
-    TKN_LBL = 0x04
-    TKN_SYM = 0x05
-    TKN_ADR = 0x06
-    TKN_ERR = 0x00
-
-
 class PLAS_SYNTAX:
     SYNTAX_S = "putc     2        \n" + \
                "load     2     2|3\n" + \
@@ -773,174 +750,6 @@ class Parser:
 
         with open(file, "w+") as f:
             f.write(data)
-
-
-class Token:
-    def __init__(self):
-        self.tokenType = None
-        self.tokenData = None
-
-    def set_type(self, token_type):
-        self.tokenType = token_type
-
-    def set_data(self, token_data):
-        self.tokenData = token_data
-
-    def get_type(self):
-        return self.tokenType
-
-    def get_data(self):
-        return self.tokenData
-
-    @classmethod
-    def create_from(cls, token_type, token_data):
-        token = Token()
-        token.set_type(token_type)
-        token.set_data(token_data)
-        return token
-
-    def __str__(self):
-        return "<TYPE {0} ({1}), DATA {2}>".format(self.get_type(), TTC.get_type(self.get_type()), self.get_data())
-
-
-class TokenMatcher:
-    def __init__(self, token):
-        self.__ins_regex = r"(putc|load|go|exit|eval|ifeq|ifne|ifgt|iflt|ifge|ifle|add|sub|mul|idiv|div|home|log|data)"
-        self.__mem_regex = r"\$([0-9]|[a-f])"
-        self.__val_regex = r'\-?([0-9]+|[0-9]*)\.?([0-9]*|[0-9]+)'
-        self.__lbl_regex = r"[a-zA-Z_]+[a-zA-Z0-9_]*"
-        self.__sym_regex = ASCIIHelper.SYM_REGEX
-
-        self.token = token
-        self.tkn = Token()
-        self.tkn.set_data(self.token)
-
-    def get_token_type(self):
-        if re.fullmatch(self.__ins_regex, self.token):
-            self.tkn.set_type(TokenType.TKN_INS)
-        elif re.fullmatch(self.__mem_regex, self.token):
-            self.tkn.set_type(TokenType.TKN_MEM)
-        elif re.fullmatch(self.__val_regex, self.token):
-            self.tkn.set_type(TokenType.TKN_VAL)
-        elif re.fullmatch(self.__lbl_regex, self.token):
-            self.tkn.set_type(TokenType.TKN_LBL)
-        elif re.fullmatch(self.__sym_regex, self.token):
-            self.tkn.set_type(TokenType.TKN_SYM)
-        else:
-            self.tkn.set_type(TokenType.TKN_ERR)
-
-        return self.tkn
-
-
-class Tokenizer:
-    def __init__(self, source_stream):
-        self.ss = source_stream
-        self.codes = []
-        self.lines = []
-        self.tokens = {}
-        for __ss in self.ss:
-            self.codes.append(__ss[0])
-            self.lines.append(__ss[1])
-
-        self.__tokenize()
-
-    def to_file(self, file):
-        data = ""
-        if len(self.tokens.keys()) == 0:
-            return
-        large_line = len(str(max(self.tokens.keys())))
-        for (line, line_tokens) in self.tokens.items():
-            line_data = ""
-            token_data = ""
-            for token in line_tokens:
-                line_data += str(token.get_data()) + " "
-                token_data += str(token)
-            _line = "%{0}d: %-20s | %5s\n".format(large_line)
-            _line = _line % (line, line_data, token_data)
-            # line = "%5d: %-20s | %5s\n" % (line, line_data, token_data)
-            data += _line
-
-        with open(file, "w+") as f:
-            f.write(data)
-
-    def get_tokens(self):
-        return self.tokens
-
-    def __tokenize(self):
-        lp = 0
-        for code in self.codes:
-            formatted_code = Tokenizer.__pas_formatter(code)
-            fcl = []
-            for fc in formatted_code:
-                fcl.append(TokenMatcher(fc).get_token_type())
-
-            self.tokens[self.lines[lp]] = fcl
-            lp += 1
-
-    @staticmethod
-    def __pas_formatter(code: str) -> list:
-        formatted = []
-        data = ""
-        for char in code:
-            if ASCIIHelper.is_alphanum(char):
-                data += char
-            else:
-                if char == '_' or char == '$' or char == '-' or char == '.':
-                    data += char
-                elif char == ' ':
-                    if data == "":
-                        continue
-                    else:
-                        formatted.append(data)
-                        data = ""
-                else:
-                    if data == "":
-                        formatted.append(char)
-                    else:
-                        formatted.append(data)
-                        formatted.append(char)
-                        data = ""
-        if not data == "":
-            formatted.append(data)
-
-        return formatted
-
-
-class Preprocessor:
-    def __init__(self, source: str):
-        self.source = source
-        self.preprocessed = []
-        self.__preprocess()
-
-    def __preprocess(self):
-        line = 1
-        for stream in self.source.split('\n'):
-            clean_stream = ""
-            stream = stream.strip().replace('\t', ' ')
-            if stream.startswith("#"):
-                line += 1
-                continue
-
-            if stream == "" or stream is None:
-                line += 1
-                continue
-
-            # clean space and comment after a code
-            space_seen = False
-            for c in stream:
-                if c == '#':
-                    break
-                if not c == chr(0x20) or not space_seen:
-                    clean_stream += c
-                    space_seen = False
-                if c == chr(0x20):
-                    space_seen = True
-
-            self.preprocessed.append([clean_stream.strip(), line])
-            line += 1
-
-    def get_preprocessed(self) -> list:
-        return self.preprocessed
 
 
 class Plas:
