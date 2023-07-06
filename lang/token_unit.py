@@ -25,7 +25,6 @@ class TokenType:
     TKN_ERR = 0x00
 
 
-
 class Token:
     def __init__(self):
         self.tokenType = None
